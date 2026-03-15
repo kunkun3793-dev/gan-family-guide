@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>大切な人ががんになった時</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#ddd}
+body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif}
+.app{max-width:430px;margin:0 auto;min-height:100vh;background:#fff;display:flex;flex-direction:column}
+.header{background:linear-gradient(135deg,#a8c5c0 0%,#8fb3c0 50%,#7a9db5 100%);padding:28px 20px 24px;position:relative;overflow:hidden;flex-shrink:0}
+.header svg.net{position:absolute;top:0;right:0;width:100%;height:100%;pointer-events:none}
+.hi{position:relative;z-index:1}
+.h-big{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:28px;font-weight:700;color:#1a3a4a;letter-spacing:0.05em;display:block;line-height:1.3}
+.h-line{width:55%;height:1px;background:#2a4a5a;opacity:0.4;margin:8px 0}
+.h-sub{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:28px;color:#2a4a5a;letter-spacing:0.08em;display:block}
+.page{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px}
+.gp,.dp{display:none}
+.gp.on,.dp.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 10px;height:calc(100vh - 220px)}
+.cb{background:#3b4fa8;border:none;border-radius:10px;cursor:pointer;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.cb:active{transform:scale(0.95);background:#2d3d8a}
+.cb span{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:13px;color:#fff;text-align:center;line-height:1.65;letter-spacing:0.04em;padding:4px}
+.bbtn{background:none;border:none;color:#3b4fa8;font-size:14px;cursor:pointer;padding:16px 16px 8px;display:flex;align-items:center;gap:4px}
+.bbtn:active{opacity:0.7}
+.dtitle{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:18px;color:#1a3a4a;padding:2px 16px 12px;letter-spacing:0.08em}
+
+/* 大項目アコーディオン */
+.al{padding:0 12px;display:flex;flex-direction:column;gap:8px;padding-bottom:12px}
+.ai{background:#3b4fa8;border-radius:16px;overflow:hidden}
+.ah{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer}
+.ah span{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:15px;color:#fff;flex:1;letter-spacing:0.05em}
+.aico{color:#fff;font-size:22px;transition:transform 0.25s;flex-shrink:0;margin-left:8px;font-style:normal}
+.ai.on .aico{transform:rotate(45deg)}
+.ab{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+.ai.on .ab{max-height:3000px}
+
+/* 小項目アコーディオン */
+.sl{padding:4px 10px 12px;display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(255,255,255,0.2)}
+.si{background:#4a5fba;border-radius:12px;overflow:hidden}
+.sh{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer}
+.sh span{font-size:13px;color:#dde4ff;flex:1;letter-spacing:0.04em}
+.sico{color:#dde4ff;font-size:18px;transition:transform 0.25s;flex-shrink:0;margin-left:6px;font-style:normal}
+.si.on .sico{transform:rotate(45deg)}
+.sb{max-height:0;overflow:hidden;transition:max-height 0.3s ease}
+.si.on .sb{max-height:2000px}
+.sc{padding:4px 16px 14px;font-size:13px;color:#c8d4ff;line-height:1.9;border-top:1px solid rgba(255,255,255,0.1)}
+.sc p{margin-top:8px}
+.sc ul{margin-top:8px;padding-left:18px}
+.sc li{margin-bottom:5px}
+.sc strong{color:#fff}
+
+.navbar{background:linear-gradient(135deg,#a8c5c0 0%,#8fb3c0 50%,#7a9db5 100%);height:68px;display:flex;align-items:center;justify-content:space-around;flex-shrink:0}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 24px;flex:1;text-decoration:none}
+.ni:active{opacity:0.7}
+.nl{font-size:11px;color:#1a3a4a;letter-spacing:0.06em;font-weight:500}
+.nd{width:1px;height:26px;background:rgba(26,58,74,0.2);flex-shrink:0}
+.disclaimer{padding:16px 16px 4px;border-top:1px solid #e8e8e8;background:#f9f9f9}
+.disclaimer p{font-size:11px;color:#888;line-height:1.7;margin-bottom:6px}
+.disclaimer a{color:#3b4fa8;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+  <svg class="net" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid slice">
+    <circle cx="220" cy="60" r="85" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+    <circle cx="220" cy="60" r="62" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="1"/>
+    <circle cx="220" cy="60" r="40" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+    <circle cx="245" cy="10" r="2.5" fill="rgba(255,255,255,0.55)"/>
+    <circle cx="292" cy="42" r="2" fill="rgba(255,255,255,0.45)"/>
+    <circle cx="278" cy="100" r="2.5" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="185" cy="112" r="2" fill="rgba(255,255,255,0.38)"/>
+    <line x1="245" y1="10" x2="292" y2="42" stroke="rgba(255,255,255,0.28)" stroke-width="0.8"/>
+    <line x1="292" y1="42" x2="278" y2="100" stroke="rgba(255,255,255,0.22)" stroke-width="0.8"/>
+    <line x1="278" y1="100" x2="185" y2="112" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+    <line x1="245" y1="10" x2="185" y2="112" stroke="rgba(255,255,255,0.12)" stroke-width="0.6"/>
+  </svg>
+  <div class="hi">
+    <span class="h-big">大切な人が</span>
+    <div class="h-line"></div>
+    <span class="h-sub"><span style="font-size:28px;letter-spacing:0.05em;">がん</span><span style="font-size:18px;letter-spacing:0.08em;margin-left:-2px;">になった時・・・</span></span>
+  </div>
+</div>
+
+<div class="page" id="pa">
+  <div class="gp on" id="gp">
+    <div class="grid">
+      <button class="cb" onclick="show('partner')"><span>配偶者・パートナー<br>様へ</span></button>
+      <button class="cb" onclick="show('child-s')"><span>子供さんへ<br>（13歳以下）</span></button>
+      <button class="cb" onclick="show('child-l')"><span>子供さんへ<br>（14歳以上）</span></button>
+      <button class="cb" onclick="show('parent')"><span>親の方へ</span></button>
+      <button class="cb" onclick="show('friend')"><span>知人・友人<br>様へ</span></button>
+      <button class="cb" onclick="show('work')"><span>職場の方へ</span></button>
+    </div>
+  </div>
+  <div class="dp" id="dp">
+    <button class="bbtn" onclick="back()">← カテゴリーに戻る</button>
+    <div class="dtitle" id="dtitle"></div>
+    <div class="al" id="al"></div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <p>本サービスの情報は参考情報であり、医療的判断の代替となるものではありません。治療や医療に関するご判断は、必ず主治医にご相談ください。</p>
+  <p>参考：<a href="https://ganjoho.jp" target="_blank">国立がん研究センター がん情報サービス</a></p>
+</div>
+
+<div class="navbar">
+  <div class="ni" onclick="back()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a3a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><circle cx="12" cy="7.5" r="1.2" fill="#1a3a4a" stroke="none"/></svg>
+    <span class="nl">ホーム</span>
+  </div>
+  <div class="nd"></div>
+  <div class="ni" onclick="window.open('https://lin.ee/MVh1USV','_blank')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" fill="#00b900"/><path d="M12 5.5C8.4 5.5 5.5 8 5.5 11c0 1.8 1 3.4 2.6 4.5l-.6 2.2 2.5-1.3c.6.2 1.3.3 2 .3 3.6 0 6.5-2.5 6.5-5.7s-2.9-5.5-6.5-5.5z" fill="white"/></svg>
+    <span class="nl">LINE</span>
+  </div>
+  <div class="nd"></div>
+  <div class="ni" onclick="window.open('https://note.com/kunkun935','_blank')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a3a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    <span class="nl">コラム</span>
+  </div>
+</div>
+</div>
+
+<script>
+var D={
+partner:{t:'配偶者・パートナー',sections:[
+  {h:'診断直後',items:[
+    {h:'二人に起きること',b:'<p>がんと聞いた瞬間、本人だけでなく、配偶者やパートナーも強い衝撃を受けます。頭が真っ白になる、何を聞いたのか整理できない、これからどうなるのか想像できない。</p><p>本人は自分のことだけで精一杯になりやすく、配偶者・パートナーは「支えなきゃ」「しっかりしなきゃ」と気持ちを固めやすくなります。でもこの時期は、お互いに余裕がないのが自然です。</p>'},
+    {h:'起きやすいすれ違い',b:'<ul><li>本人は一人になりたいのに、相手は励まそうとする</li><li>相手は支えたいのに、本人には重く届く</li><li>何か言わなければと思うほど、言葉が空回りする</li></ul>'},
+    {h:'届く言葉',b:'<p>大切なのは、正解の言葉を探しすぎないことです。</p><ul><li>「何て言えばいいかわからないけど、そばにいるよ」</li><li>「一人にはしないよ」</li></ul><p>この時期は、短い言葉の方が届くことがあります。</p>'},
+  ]},
+  {h:'治療前',items:[
+    {h:'本人の状態',b:'<p>治療前は、検査や説明、治療方針の決定が続き、本人の心も体も消耗しやすい時期です。自分で選びたい気持ちがあっても、「決める余白がない」状態になりやすくなります。</p>'},
+    {h:'情報を集めすぎてしまう問題',b:'<p>配偶者・パートナーが情報を集め、病院を調べ、前向きな材料を見つけようとすることがあります。それは愛情からの行動ですが、本人には：</p><ul><li>「考えることが増えてしんどい」</li><li>「急かされている感じがする」</li><li>「決められない自分を責めてしまう」</li></ul><p>という負担になることもあります。</p>'},
+    {h:'言葉のすれ違い',b:'<p>励ましのつもりで言った言葉が逆につらく届くことがあります。</p><ul><li>「あの芸能人も治ったんだから大丈夫」→他の人と比べられているように感じさせます</li><li>「しっかりしてね」「前向きにいこう」→責められているようで息がつまると感じさせることがあります</li></ul>'},
+    {h:'できること',b:'<p>この時期に大切なのは、答えを出すことよりも、本人が今どれだけいっぱいかを理解することです。</p><ul><li>「今、何が一番しんどい？」</li><li>「一緒に整理しようか」</li><li>「今すぐ決めなくていいところは一緒に確認しよう」</li></ul><p>「どんな選択をしても、一緒にいるよ」この一言が本人の力になります。</p>'},
+  ]},
+  {h:'治療中',items:[
+    {h:'本人の状態',b:'<p>治療中は副作用、疲労、痛み、脱毛、体調の波などで、本人の状態が日ごとに変わります。動いているように見えても、心も体も限界に近いことがあります。</p><ul><li>話しかけられるのもしんどい日</li><li>触れられたくない日</li><li>一人にしてほしい日</li><li>逆にそばにいてほしい日</li></ul><p>が揺れやすくなります。</p>'},
+    {h:'うつ傾向について',b:'<p>がんの治療中・治療後は、うつ状態になりやすいことがわかっています。</p><p>気力がない、眠れない、何もしたくない——それは怠けているのではありません。心が限界に近いサインです。「元気を出して」と急かさず、そのままの状態を受け止めてください。</p>'},
+    {h:'脱毛・体の変化',b:'<p>脱毛や体の変化は、見た目だけの問題では終わりません。「前の自分ではなくなった」という感覚が、気持ちをさらに落としていくことがあります。「気にしすぎ」と言わず、その気持ちをそのまま受け止めてください。</p>'},
+    {h:'パートナーの迷い',b:'<p>手伝おうとしても断られる、励まそうとしても反応が薄い、以前と同じように触れられない——そう感じることもあります。でも、それは愛情がなくなったからではなく、本人の余裕がなくなっていることが多いです。</p>'},
+    {h:'日常の支え方',b:'<ul><li>無理に話させない</li><li>家事や育児を具体的に引き受ける</li><li>「今できること」を短く確認する</li><li>触れる前に一言確認する</li></ul>'},
+  ]},
+  {h:'治療後',items:[
+    {h:'本人の中では終わっていない',b:'<p>治療が終わると周囲は「ひとまず終わった」と感じやすくなります。でも本人の中では終わっていないことが少なくありません。</p><ul><li>体力が戻らない</li><li>気持ちが戻らない</li><li>再発が怖い</li><li>外見の変化が気になる</li><li>前の自分には戻れないように感じる</li></ul>'},
+    {h:'経済的プレッシャーについて',b:'<p>「仕事はどうするの？」「いつ戻るの？」——その言葉が、本人には回復できていない自分を責めるプレッシャーとして届くことがあります。</p><p>がんと診断された方の約４割が離職しています。お金の不安があっても、そのまま本人にぶつけることで本人は孤立します。まずは二人で、落ち着いて考える時間を作ることが大切です。</p>'},
+    {h:'これからの関係について',b:'<p>治療後は、回復の時期であると同時に、関係性を新しく作り直していく時期でもあります。以前と同じ形に戻すことを急ぐより、「今の二人に合う形」を探していく視点が必要です。</p>'},
+  ]},
+  {h:'見えにくい負担',items:[
+    {h:'パートナー自身のつらさ',b:'<p>配偶者・パートナーは、本人を支える立場にいるため、自分のつらさを後回しにしやすくなります。でも実際には、見えにくい負担が積み重なっています。</p><ul><li>無力感・罪悪感・怒り</li><li>先の見えなさ・経済的不安</li><li>仕事と付き添い、家事、育児の両立</li><li>親族との温度差</li><li>相談できない孤独</li></ul><p>「自分が弱いからつらい」のではなく、状況が続くことで自然に起きる反応です。</p>'},
+    {h:'支援の対象はあなた自身でもある',b:'<p>配偶者・パートナー自身も、支援の対象です。一人で抱え込まず、がん相談支援センターや家族向けの支援窓口を使うことも大切です。</p>'},
+  ]},
+  {h:'体の変化とスキンシップ',items:[
+    {h:'本人の気持ち',b:'<p>治療や手術のあと、体の変化は見た目だけの問題では終わりません。</p><ul><li>触れてほしい日と、触れられたくない日がある</li><li>見た目の変化で自信がなくなる</li><li>相手に申し訳ない気持ちが強くなる</li><li>拒絶したと思われそうで怖い</li><li>愛しているのに、前のように表現できない</li></ul>'},
+    {h:'パートナー側の気持ち',b:'<ul><li>触れてよいかわからない</li><li>何を言えばいいのかわからない</li><li>元気づけたいのに逆に傷つけそう</li><li>距離を取るべきか、近づくべきか迷う</li></ul>'},
+    {h:'できること',b:'<ul><li>「愛してるよ」「大好きだよ」と言葉にして伝える</li><li>「見た目が変わっても大切だよ」とはっきり伝える</li><li>手をつなぐ前に「今日は大丈夫？」と確認する</li><li>セックスを急いで元に戻そうとしない</li><li>家事や育児を引き受ける</li><li>「今日は休んでいい」と言葉で伝える</li></ul>'},
+  ]},
+]},
+
+parent:{t:'親',sections:[
+  {h:'子供さんからがんを告げられた時',items:[
+    {h:'よく起きること',b:'<ul><li>親が取り乱してしまい、子どもが逆に慰める側になる</li><li>「どうして早く言わなかったの」と責めてしまう</li><li>「私の育て方が悪かったのか」と自分を責め始める</li><li>「誰にも言わないで」と口止めしてしまう</li><li>「もしかして、私からの遺伝？」と自分を責め始める</li></ul><p>子どもはがんを告げるだけで精一杯でした。気づけば親を慰める役に回っていた——そういうことが起きやすいのがこの時期です。</p>'},
+    {h:'今できる一番の支え',b:'<p>子どもが「今、話せる？」と聞いてきた時、それだけで大きな勇気を使っています。</p><p>うまく整理されていなくても、まとまっていなくても十分です。「ちゃんと説明して」と求めず、ただそばで聞く。それがこの瞬間に親ができる一番の支えです。</p>'},
+  ]},
+  {h:'治療前',items:[
+    {h:'情報を送りすぎてしまう問題',b:'<p>親は心配するからこそ、セカンドオピニオンを勧めたり、民間療法の情報を送ったりすることがあります。でも子どもには「また調べ物が増えた」「自分で決めたいのに決める余裕をもらえない」という負担として届くことがあります。</p>'},
+    {h:'一番の力になる言葉',b:'<p>親がしてあげられる一番のことは、情報を集めることではなく、子どもが決めたことを尊重することです。</p><p>「どんな選択をしても、一緒にいるよ」その一言が、子どもにとって一番の力になることがあります。</p>'},
+  ]},
+  {h:'治療中',items:[
+    {h:'子どもに起きていること',b:'<p>子どもが一番しんどいのは、自分のつらさを抱えながら、親を安心させる役まで引き受けることです。</p><ul><li>「また返事をしなければ」とプレッシャーになる</li><li>「頑張れと言われても、今すでに頑張っている」と苦しくなる</li><li>「しっかりしなさいと言われると、責められているようで息がつまる」</li><li>親を安心させるために、元気なふりをしてしまう</li></ul>'},
+    {h:'この時期にできること',b:'<ul><li>連絡の頻度を子どもに合わせる（「週に一回でいい？」と確認する）</li><li>「返事はいつでもいいよ」と伝える</li><li>「頑張れ」より「無理しないで」を選ぶ</li><li>会いに行く前に必ず確認する</li><li>「何かできることがあれば言って」と伝えて、待つ</li></ul>'},
+  ]},
+  {h:'治療後',items:[
+    {h:'言ってはいけない言葉',b:'<p>「もう元気なんだから」「早く仕事に戻りなさい」「前みたいに戻れてよかった」——その言葉が、子どもには「まだつらいのに、わかってもらえない」と感じさせることがあります。</p><p>治療の終わりは、ゴールではなくスタートです。「終わったね、よかった」で区切るより、「ここからも一緒にいるよ」という姿勢が子どもの支えになります。</p>'},
+  ]},
+  {h:'親世代とのすれ違い',items:[
+    {h:'世間体という価値観',b:'<p>「病気は隠すもの」「弱さを見せてはいけない」という価値観から、「誰にも言わないで」と言ってしまうことがあります。</p><p>でも子どもにとって、これは深く傷つく言葉になることがあります。「隠さなければいけない病気」と言われているように感じるからです。</p><p><strong>誰に話すかは、子どもが決めること</strong>——その一点だけは大切にしてほしいのです。</p>'},
+  ]},
+  {h:'高齢・遠方の親へ',items:[
+    {h:'高齢の親への配慮',b:'<ul><li>一度に多くの情報を伝えすぎない</li><li>難しい医療用語を使わず、わかりやすい言葉で話す</li><li>「治療を受けている」「先生に任せている」など安心できる情報を中心に伝える</li><li>親自身の体調が悪化しないよう、伝え方を調整する</li><li>兄弟姉妹と事前に話し合い、伝える内容を揃えておく</li></ul>'},
+    {h:'遠方の親への配慮',b:'<ul><li>定期的に短い連絡を入れる（長文でなくていい）</li><li>「こう支えてほしい」を具体的に伝える</li><li>直接来てほしい時と、来なくていい時を明確に伝える</li><li>兄弟姉妹がいる場合は、連絡窓口を一人に決めると混乱が減る</li></ul>'},
+  ]},
+  {h:'それでも苦しい時',items:[
+    {h:'相談できる場所',b:'<p>どう接すればいいかわからなくなることがあります。それは、あなたが弱いからではなく、それだけ子どものことを大切に思っているということです。</p><ul><li>病院のがん相談支援センター（家族も相談できます）</li><li>主治医・看護師</li><li>心理士・ソーシャルワーカー</li><li>患者会・家族会</li></ul><p>「子どもへの接し方がわからない」と話すだけで、一緒に考えてもらえる場所があります。あなたが誰かにつながることが、子どもを支え続ける力にもなります。</p>'},
+  ]},
+]},
+
+'child-s':{t:'子供さんへ（13歳以下）',sections:[
+  {h:'まず<ruby>知<rt>し</rt></ruby>ってほしいこと',items:[
+    {h:'あなたの<ruby>気持<rt>きも</rt></ruby>ちはおかしくないよ',b:'<p>お<ruby>父<rt>とう</rt></ruby>さんまたはお<ruby>母<rt>かあ</rt></ruby>さんのことで、こんな<ruby>気持<rt>きも</rt></ruby>ちになる<ruby>人<rt>ひと</rt></ruby>はたくさんいるよ。</p><ul><li><ruby>怖<rt>こわ</rt></ruby>い</li><li><ruby>悲<rt>かな</rt></ruby>しい</li><li>なにもできない<ruby>自分<rt>じぶん</rt></ruby>がいやだ</li><li><ruby>泣<rt>な</rt></ruby>きたくなる</li><li>ぎゃくに、なにも<ruby>感<rt>かん</rt></ruby>じなくなる</li><li><ruby>学校<rt>がっこう</rt></ruby>に<ruby>集中<rt>しゅうちゅう</rt></ruby>できない</li></ul><p>どれも、おかしくないよ。あなたが<ruby>今<rt>いま</rt></ruby><ruby>感<rt>かん</rt></ruby>じていることは、ぜんぶ<ruby>自然<rt>しぜん</rt></ruby>なことだよ。</p>'},
+    {h:'あなたのせいじゃないからね',b:'<p>がんになったのは、あなたのせいじゃないよ。なにか<ruby>悪<rt>わる</rt></ruby>いことをしたからじゃないからね。でも、あなたがそばにいてくれることは、その<ruby>人<rt>ひと</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>になるよ。</p>'},
+  ]},
+  {h:'がんって<ruby>何<rt>なに</rt></ruby>？',items:[
+    {h:'うつらないから<ruby>安心<rt>あんしん</rt></ruby>してね',b:'<p>がんは、からだの<ruby>中<rt>なか</rt></ruby>に<ruby>悪<rt>わる</rt></ruby>いものができてしまう<ruby>病気<rt>びょうき</rt></ruby>だよ。<ruby>大切<rt>たいせつ</rt></ruby>なのはこの2つ。</p><ul><li>がんはうつらないよ（<ruby>風邪<rt>かぜ</rt></ruby>みたいに<ruby>移<rt>うつ</rt></ruby>らない）</li><li>お<ruby>医者<rt>いしゃ</rt></ruby>さんが<ruby>治療<rt>ちりょう</rt></ruby>してくれる<ruby>病気<rt>びょうき</rt></ruby>だよ</li></ul><p><ruby>治療<rt>ちりょう</rt></ruby>には<ruby>時間<rt>じかん</rt></ruby>がかかることがあるよ。<ruby>具合<rt>ぐあい</rt></ruby>が<ruby>悪<rt>わる</rt></ruby>い<ruby>日<rt>ひ</rt></ruby>もあるよ。でも、ちゃんと<ruby>治療<rt>ちりょう</rt></ruby>しているからね。</p>'},
+    {h:'<ruby>見<rt>み</rt></ruby>た<ruby>目<rt>め</rt></ruby>が<ruby>変<rt>か</rt></ruby>わっても<ruby>同<rt>おな</rt></ruby>じ<ruby>人<rt>ひと</rt></ruby>だよ',b:'<p><ruby>治療<rt>ちりょう</rt></ruby>の<ruby>影響<rt>えいきょう</rt></ruby>で、<ruby>髪<rt>かみ</rt></ruby>が<ruby>抜<rt>ぬ</rt></ruby>けたり、<ruby>疲<rt>つか</rt></ruby>れやすくなったりすることがあるよ。<ruby>見<rt>み</rt></ruby>た<ruby>目<rt>め</rt></ruby>が<ruby>変<rt>か</rt></ruby>わっても、<ruby>同<rt>おな</rt></ruby>じお<ruby>父<rt>とう</rt></ruby>さんお<ruby>母<rt>かあ</rt></ruby>さんだよ。</p><p><ruby>友達<rt>ともだち</rt></ruby>にからかわれたりするのが<ruby>嫌<rt>いや</rt></ruby>な<ruby>時<rt>とき</rt></ruby>は、「<ruby>治療中<rt>ちりょうちゅう</rt></ruby>」とだけ<ruby>言<rt>い</rt></ruby>えば<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>だよ。</p>'},
+  ]},
+  {h:'あなたにできること',items:[
+    {h:'しっかりしなくていいよ',b:'<p><ruby>大人<rt>おとな</rt></ruby>みたいにしっかりしなくていいよ。あなたは<ruby>子<rt>こ</rt></ruby>どものままでいいんだよ。</p><p>お<ruby>兄<rt>にい</rt></ruby>ちゃんだから、お<ruby>姉<rt>ねえ</rt></ruby>ちゃんだから、しっかりしなければ——そう<ruby>思<rt>おも</rt></ruby>わなくていいよ。<ruby>上<rt>うえ</rt></ruby>の<ruby>子<rt>こ</rt></ruby>でも、<ruby>下<rt>した</rt></ruby>の<ruby>子<rt>こ</rt></ruby>でも、<ruby>関係<rt>かんけい</rt></ruby>ないよ。</p><p><strong><ruby>安心<rt>あんしん</rt></ruby>していてね。</strong></p>'},
+    {h:'<ruby>一番<rt>いちばん</rt></ruby><ruby>伝<rt>つた</rt></ruby>わること',b:'<ul><li>ふつうに<ruby>学校<rt>がっこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>く</li><li><ruby>好<rt>す</rt></ruby>きなことを<ruby>楽<rt>たの</rt></ruby>しむ</li><li><ruby>話<rt>はなし</rt></ruby>を<ruby>聴<rt>き</rt></ruby>いてほしい<ruby>時<rt>とき</rt></ruby>は、そばにいる</li></ul><p>それだけで、この<ruby>人<rt>ひと</rt></ruby>はじゅうぶん<ruby>励<rt>はげ</rt></ruby>まされているよ。</p>'},
+  ]},
+  {h:'<ruby>話<rt>はな</rt></ruby>したくなったら',items:[
+    {h:'<ruby>一人<rt>ひとり</rt></ruby>で<ruby>抱<rt>かか</rt></ruby>えなくていいよ',b:'<p><ruby>気持<rt>きも</rt></ruby>ちが<ruby>苦<rt>くる</rt></ruby>しくなった<ruby>時<rt>とき</rt></ruby>、<ruby>一人<rt>ひとり</rt></ruby>で<ruby>抱<rt>かか</rt></ruby>え<ruby>込<rt>こ</rt></ruby>まなくていいよ。</p><ul><li><ruby>信頼<rt>しんらい</rt></ruby>できる<ruby>大人<rt>おとな</rt></ruby>に<ruby>話<rt>はな</rt></ruby>してね</li><li><ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>やスクールカウンセラーに<ruby>相談<rt>そうだん</rt></ruby>してね</li><li>「つらい」と<ruby>言葉<rt>ことば</rt></ruby>にするだけでもいいよ</li></ul><p><ruby>話<rt>はな</rt></ruby>せなくても、<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>だよ。でも、<ruby>話<rt>はな</rt></ruby>せる<ruby>場所<rt>ばしょ</rt></ruby>があることを<ruby>知<rt>し</rt></ruby>っておいてね。</p>'},
+  ]},
+]},
+
+'child-l':{t:'子ども（14歳以上）',sections:[
+  {h:'まず知ってほしいこと',items:[
+    {h:'あなたの気持ちはおかしくない',b:'<p>家族のがんのことを知って、こんな気持ちになる人はたくさんいます。</p><ul><li>怖い・悲しい</li><li>自分がしっかりしなければと思う</li><li>誰にも言えなくて、一人で抱えてしまう</li><li>後ろめたいのに、どうすればいいかわからない</li><li>理由もなく怒りを感じる</li><li>何も感じなくなる</li></ul><p>どれも、おかしくありません。この年齢はもともと気持ちが揺れやすい時期です。その上に家族のがんが重なったら、整理できなくて当然です。</p>'},
+    {h:'あなたのせいじゃない',b:'<p>病気の原因は、あなたにありません。あなたがどれだけ心配しても、治る病気かどうかは別の話です。あなたにできるのは、そこにいることだけでいいんです。</p>'},
+  ]},
+  {h:'「しっかりしなければ」と思ったら',items:[
+    {h:'頑張らなくていい',b:'<p>お兄ちゃんだから、お姉ちゃんだから、頑張らなければ——そう思わなくていいです。</p><p><strong>あなたが学校に行って、自分の時間を大切にすることが、一番うれしいことです。</strong></p><p>家事を引き受けたり、全部自分で抱えようとしなくていいです。それは、あなたの仕事ではありません。<strong>安心していていいんです。</strong></p>'},
+  ]},
+  {h:'怒りや悲しさを感じたら',items:[
+    {h:'怒りはおかしくない',b:'<p>「なんでうちの家族だけ」「なんで横になるの」——そんな怒りを感じるのは、ぜんぜん普通のことです。</p><p>怒りは、不安や悲しみが形を変えて出てきたものです。その怒りを持っていること自体、おかしくありません。</p>'},
+  ]},
+  {h:'そばにいてあげよう',items:[
+    {h:'話さなくてもいい',b:'<p>何かしてあげなければ、と思わなくていいです。そばにいて、話を聴いてあげるだけで十分です。</p><p>「今、話せる？」と一言聞いてから、ただ聴く。それだけで、その人はとても楽になります。</p>'},
+    {h:'一つできることを増やしてみよう',b:'<ul><li>いつも通りにあいさつする</li><li>ごはんを一緒に食べる</li><li>「今日どうだった？」と聞いてみる</li></ul><p>小さなことで十分です。一つできることが増えるだけで、その人の毎日が少し変わります。</p>'},
+  ]},
+  {h:'距離を置きたくなる時',items:[
+    {h:'それも自然なこと',b:'<p>部屋にこもりたい、友達といる方が楽、うまく話せない——それでも大丈夫です。</p><p>距離を置くことと、家族を嫌いになったことは、別の話です。</p>'},
+  ]},
+  {h:'自分の時間も大切にしていい',items:[
+    {h:'好きなことをしていい',b:'<p>家族が大変な時でも、あなたの時間、おもしろいこと、好きなことを大切にしていいんです。</p><p>好きなことをしていることと、家族を想っていないことは、別の話です。色々な気持ちがあるまま、自分の毎日を大切に生きてください。</p>'},
+  ]},
+  {h:'それでも苦しくなった時',items:[
+    {h:'相談できる場所',b:'<ul><li>信頼できる大人（先生、親戚、部活の大人など）に話す</li><li>スクールカウンセラーに相談する</li><li>Hope Tree（ホープツリー）というサイトに、同じ立場の人への情報がある</li></ul><p><strong>あなたの気持ちは、ちゃんと大切です。安心していてね。</strong></p>'},
+  ]},
+]},
+
+friend:{t:'知人・友人',sections:[
+  {h:'知った時',items:[
+    {h:'打ち明けてくれたことの意味',b:'<p>友人や知人から「がんになった」と打ち明けられた時、どう反応すればいいか迷う人がほとんどです。「何て言えばいいかわからなくて、しばらく連絡できなかった」という経験をする人は少なくありません。</p><p>打ち明けてくれた、ということは、あなたのことを信頼しているということです。完璧な言葉を探す必要はありません。「何て言えばいいかわからないけれど、聞かせてくれてありがとう」それだけで、伝わるものがあります。</p>'},
+  ]},
+  {h:'診断直後・治療前',items:[
+    {h:'できること',b:'<ul><li>話を聞く（解決しようとせず、ただ聞く）</li><li>「何でもしてあげたい」より「〇〇しようか？」と具体的に提案する</li><li>必要以上に連絡を増やさない</li><li>「大丈夫だよ」「絶対治る」と軽く言わない</li></ul><p><strong>「いつでも連絡してね」と伝えてから、静かに待てる</strong>ことが大切です。この時期の本人は多くの判断・手続きに追われています。「返事しなくていい安心感」を与えてあげることが大きなサポートになります。</p>'},
+  ]},
+  {h:'治療中',items:[
+    {h:'連絡の仕方',b:'<p>「元気？」と毎日聞くことが、本人には答える義務として届くことがあります。</p><ul><li>LINEは、返事を求めない形で送る（「返事はいつでもいい」「気が向いた時だけで」と添える）</li><li>ふとした日常の話を送る（普通の話題が「ふつうの自分」でいられる時間を作ってくれる）</li><li>「会いたいけど、体調に合わせてね」と伝える</li><li>「何か手伝えることある？」より「買い物の代わりに行けるよ」など具体的に</li></ul>'},
+  ]},
+  {h:'治療後・回復期',items:[
+    {h:'本人の中では続いている',b:'<p>治療が終わっても、体力が戻るのに時間がかかる、再発への不安が続く、外見の変化が気になっている——本人の中ではまだ続いていることがあります。</p><p>「もう元気そうだね」「復帰はいつ？」という言葉が「まだつらいのに、わかってもらえない」と感じさせることがあります。本人のペースに合わせてください。</p>'},
+  ]},
+  {h:'よくある誤解とすれ違い',items:[
+    {h:'気をつけたいこと',b:'<p><strong>「腫れ物扱いしてしまう」</strong><br>気を遣いすぎるあまり、以前の自然な関係が消えてしまうことがあります。本人が望んでいるのは「普通に接してほしい」ということが多いです。</p><p><strong>「情報を集めて送ってしまう」</strong><br>本人はすでに大量の情報の中にいます。さらに情報が増えることが負担になることもあります。</p><p><strong>「自分も同じくらい大変だと言ってしまう」</strong><br>この時期の本人には重く届くことがあります。</p>'},
+  ]},
+  {h:'言ってはいけないこと',items:[
+    {h:'傷つく言葉',b:'<ul><li>「絶対に治るよ」（根拠のない励ましは、治らなかった時の孤独感を深める）</li><li>「気持ち次第だよ」（本人を責めるように届くことがある）</li><li>「あの病院がいいって聞いたよ」（情報の押しつけは判断の負担を増やす）</li><li>「若いのになんで」「かわいそうに」（本人に「かわいそうな人」の役を押しつけてしまう）</li><li>「誰かに言っていい？」と確認せずに話す（信頼を壊す）</li></ul>'},
+  ]},
+  {h:'距離を保ちながらつながる',items:[
+    {h:'消えずにいること',b:'<p>友人・知人は、「いつもそばにいる」必要はありません。「消えずにいる」だけで十分です。</p><p>たまに思い出したように連絡する。返事がなくても怒らない。治療中も、治療後も、ふとした時に「元気にしてる？」と送れる関係を続けること。それが長く続けられる友人・知人の関わり方です。</p>'},
+    {h:'迷った時は正直に',b:'<p>「どう接すればいいかわからなくて、うまくできていないかもしれないけど、気にかけているよ」その一言が、相手に届くことがあります。</p>'},
+  ]},
+]},
+
+work:{t:'職場',sections:[
+  {h:'同僚ながんだと知った時',items:[
+    {h:'知っておくべき現実',b:'<p><strong>がんと診断された方の約４割が、治療中または治療後に離職しています。</strong>職場がどう関わるかが、その分かれ目になることがあります。</p><p>本人が職場に伝えたのは、大きな勇気がいりました。誰に伝えるか、どこまで話すかを慎重に考えて伝えています。</p>'},
+    {h:'この時期に届く言葉',b:'<ul><li>「話してくれてありがとう。なにかできることがあれば言って。」</li><li>「返事はいらない。あなたのペースで大丈夫。」</li><li>「私にできることがあれば言ってください。」</li></ul><p>長くなくていいです。「気にかけている」という気持ちが届けば、それで十分です。</p>'},
+  ]},
+  {h:'治療中の関わり方',items:[
+    {h:'うつ傾向について',b:'<p>がんの治療中・治療後は、うつ状態になりやすいことがわかっています。気力が落ちている、口数が減った、以前より元気がない——それはサボっているのではなく、心が限界に近いサインである場合があります。心配な時は、「最近どう？」とそっと声をかけてください。</p>'},
+    {h:'大切な関わり方',b:'<ul><li><strong>普通に接する</strong>——病人扱いをしない。いつも通りの同僚として接することが安心になります</li><li><strong>仕事の話をしていい</strong>——がんの話ばかりにする必要はありません</li><li><strong>追いかけない</strong>——返事を急かず、待つ</li><li><strong>特別扱いをしない</strong>——過度に気を遣うことも、期待を下げすぎることも本人を苦しませます</li></ul>'},
+  ]},
+  {h:'よくある誤解とすれ違い',items:[
+    {h:'気をつけたいこと',b:'<p><strong>「自分から話してくれたんだから、みんなに話していい」</strong><br>→ 話せる人を選んで慎重に伝えています。本人の許可なく他の人に話さないことが大切です。</p><p><strong>「元気そうだから、大丈夫だろう」</strong><br>→ 見た目に元気そうでも、副作用や疲労は積み重なっています。</p><p><strong>「治療が終わったから、もう元通りだ」</strong><br>→ 治療後も体力・気力の回復に時間がかかります。「元通り」を急がせないでください。</p>'},
+  ]},
+  {h:'言ってはいけない言葉',items:[
+    {h:'傷つく言葉',b:'<p><strong>他の人と比べる言葉</strong><br>「あの芸能人も治ったから大丈夫」→「これくらいで弱音をいってはいけない」と感じさせます。</p><p><strong>前向きを求める言葉</strong><br>「前向きにいこう」「気持ちを切り替えて」→気持ちはそのまま受け止めてください。</p><p><strong>ファイト系・根性系の言葉</strong><br>「元気を出して」「負けないで」「ふんばれ」→「頑張れていない自分が悪い」と感じさせることがあります。</p><p><strong>原因に触れる言葉</strong><br>「たばこをやめなかったから」→本人を責めることになります。</p>'},
+  ]},
+  {h:'具体的にできること',items:[
+    {h:'すぐできること',b:'<ul><li>いつも通りにあいさつする</li><li>短い会話を普段通りにする</li><li>本人が話したい時にちゃんと聞く</li><li>本人の許可なく、他の人に話さない</li><li>「休みたい時は言って」「無理していると思ったら言って」と伝えておく</li></ul>'},
+    {h:'職場全体でできること',b:'<p><strong>働き続けるための環境は、職場全体で作るものです。</strong></p><p>上司・管理職にできること：勤務調整・時短勤務・勤務形態の変更などの選択肢を一緒に整理する。</p><p>同僚にできること：「あなたのペースでいい」という空気を日常の中で作る。本人が上司に相談しやすい雰囲気を支える。</p>'},
+  ]},
+  {h:'職場復帰・治療後',items:[
+    {h:'見守りながら環境を整える',b:'<p><strong>がんと診断された方の約４割が離職しています。</strong>復帰後の職場の関わり方が、働き続けられるかどうかの分かれ目になることがあります。</p><ul><li>最初は少ない負担から始め、徐々に調整する</li><li>「以前と同じ」を求めず、「今の状態に合わせる」視点で接する</li><li>定期的に小さな面談の機会を作る</li><li>変化があれば柔軟に対応する準備があることを伝える</li></ul><p>「元気そうだから大丈夫」で終わらせないでください。見守りながら環境を整える姿勢が、本人が働き続ける力になります。</p>'},
+  ]},
+  {h:'それでも迷った時',items:[
+    {h:'相談できる場所',b:'<p>どう接すればいいかわからないと思いながら、それでも真剣に考え続けること自体が、すでに大切な寄り添いになっています。</p><p>職場の中で信頼できる人に相談したり、がん相談支援センターに「職場としてどう関わればいいか」を相談することもできます。家族だけでなく、職場の人も相談できます。</p><p>完璧な関わり方はなくていいです。気にかけているという気持ちが届けば、それで十分です。</p>'},
+  ]},
+]},
+};
+
+var uid=0;
+function show(k){
+  var d=D[k];
+  document.getElementById('dtitle').textContent=d.t;
+  var html='';
+  d.sections.forEach(function(sec,si){
+    var sid='a'+(uid++);
+    var subitems='';
+    sec.items.forEach(function(item,ii){
+      var iid='s'+(uid++);
+      subitems+='<div class="si" id="'+iid+'">'
+        +'<div class="sh" onclick="togs(\''+iid+'\')">'
+        +'<span>'+item.h+'</span>'
+        +'<i class="sico">+</i>'
+        +'</div>'
+        +'<div class="sb"><div class="sc">'+item.b+'</div></div>'
+        +'</div>';
+    });
+    html+='<div class="ai" id="'+sid+'">'
+      +'<div class="ah" onclick="toga(\''+sid+'\')">'
+      +'<span>'+sec.h+'</span>'
+      +'<i class="aico">+</i>'
+      +'</div>'
+      +'<div class="ab"><div class="sl">'+subitems+'</div></div>'
+      +'</div>';
+  });
+  document.getElementById('al').innerHTML=html;
+  document.getElementById('gp').classList.remove('on');
+  document.getElementById('dp').classList.add('on');
+  document.getElementById('pa').scrollTop=0;
+}
+function back(){
+  document.getElementById('dp').classList.remove('on');
+  document.getElementById('gp').classList.add('on');
+  document.getElementById('pa').scrollTop=0;
+}
+function toga(id){
+  var el=document.getElementById(id);
+  var was=el.classList.contains('on');
+  document.querySelectorAll('.ai').forEach(function(e){e.classList.remove('on');});
+  if(!was)el.classList.add('on');
+}
+function togs(id){
+  var el=document.getElementById(id);
+  el.classList.toggle('on');
+}
+</script>
+</body>
+</html>
